@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from 'openai';
 
 const generate = async (
   titleParam,
@@ -10,21 +10,11 @@ const generate = async (
   mainGoalParam,
   detailsParam
 ) => {
-  const gemini_api_key = process.env.REACT_APP_GEMINI_API_KEY;
-  const googleAI = new GoogleGenerativeAI(gemini_api_key);
-  const geminiConfig = {
-    temperature: 0.9,
-    topP: 1,
-    topK: 1,
-  };
-
-  const geminiModel = googleAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
-    geminiConfig,
-  });
+  const openai_api_key = process.env.REACT_APP_OPENAI_API_KEY;
+  const openai = new OpenAI({ apiKey: openai_api_key, dangerouslyAllowBrowser: true });
 
   const prompt = `
-  Crie uma história infantil encantadora e fantasiosa que cative o coração de uma criança. A história deve ser apropriada para criaças e deve incluir os seguintes elementos:
+  Crie uma história infantil encantadora e fantasiosa que cative o coração de uma criança. A história deve ser apropriada para crianças e deve incluir os seguintes elementos:
   
   ${titleParam ? `Título: ${titleParam}` : ""}
   ${placeParam ? `Local: ${placeParam}` : ""}
@@ -44,9 +34,18 @@ const generate = async (
   Também não deve conter elementos violentos ou inapropriados para menores.
 `;
 
-  const result = await geminiModel.generateContent(prompt);
-  const response = result.response;
-  return response.text();
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: prompt },
+    ],
+    // temperature: 0.9,
+    // top_p: 1,
+    // frequency_penalty: 0,
+    // presence_penalty: 0,
+  });
+
+  return response.choices[0].message.content.trim();
 };
 
 export default generate;

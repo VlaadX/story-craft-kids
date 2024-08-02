@@ -5,34 +5,6 @@ function Home() {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
-    // Simulando a carga de histórias do localStorage
-    const initialStories = [
-      {
-        id: 1,
-        title: "Aventuras na Floresta",
-        date: 1689811200,
-        api: "gemini",
-        body: "Uma emocionante jornada pela floresta amazônica.".repeat(100),
-        image_1_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        image_2_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        image_3_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        image_4_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        image_5_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        image_6_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        image_7_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        image_8_url:
-          "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-      },
-    ];
-    localStorage.setItem("stories", JSON.stringify(initialStories));
-
     const loadedStories = JSON.parse(localStorage.getItem("stories")) || [];
     setStories(loadedStories);
   }, []);
@@ -42,7 +14,7 @@ function Home() {
   };
 
   const handleStoryClick = (id) => {
-    window.location.href = `history/index.html?id=${id}`;
+    window.location.href = `story/${id}`;
   };
 
   return (
