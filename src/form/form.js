@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import gemini_generate_history from "../generative/gemini/history";
 import openai_generate_history from "../generative/openai/history";
+import openai_generate_image from "../generative/openai/image";
+import gemini_generate_description from "../generative/gemini/character_description";
 import "./form.css";
+import { divideText, splitText } from "../common/utils";
 
 function Form() {
   const [title, setTitle] = useState("");
@@ -21,6 +24,10 @@ function Form() {
 
     const stories = JSON.parse(localStorage.getItem("stories")) || [];
 
+    const better_character_description = await gemini_generate_description(mainCharacterDescription);
+    console.log(mainCharacterDescription);
+    console.log(better_character_description);
+
     const generate_function = api === "openai" ? openai_generate_history : gemini_generate_history;
 
     const story_body = remove_markdown(
@@ -28,13 +35,26 @@ function Form() {
         title,
         place,
         mainCharacter,
-        mainCharacterDescription,
+        better_character_description,
         context,
         problem,
         mainGoal,
         details
       )
     );
+
+    const paragraphs = divideText(splitText(story_body));
+
+    console.log(paragraphs);
+
+    const images = [];
+
+    for (let i = 0; i < paragraphs.length; i++) {
+      const url = await openai_generate_image(paragraphs[i], better_character_description);
+      images.push(url);
+    }
+
+    console.log(images);
 
     const storyId = stories.length + 1;
 
@@ -44,16 +64,7 @@ function Form() {
       date: Date.now(),
       api,
       body: story_body,
-      images: [
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-        "https://avatars.githubusercontent.com/u/62778691?s=400&u=855736d03392dacac209820cf0969e0112501fbe&v=4",
-      ],
+      images: images,
     };
 
     stories.push(newStory);
@@ -75,9 +86,6 @@ function Form() {
 
     return cleanedText;
   }
-
-
-
 
   return (
     <div className="form">
