@@ -52,7 +52,7 @@
   display: none;
 }
 
-.story button {
+.story .pdf {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -63,12 +63,11 @@
   margin-bottom: 25px;
 }
 
-.story button:hover {
+.story .pdf:hover {
   background-color: #434190;
 }
 
-
-.story .google-form button  {
+.story .google-form {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -79,7 +78,6 @@
   margin-bottom: 25px;
 }
 
-.story google-form button:hover . {
+.story .google-form:hover {
   background-color: #2a5842;
 }
-

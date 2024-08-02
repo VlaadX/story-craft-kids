@@ -105,6 +105,7 @@ function Form() {
                 name="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                required={true}
               />
             </div>
             <div className="form-group">
@@ -115,16 +116,18 @@ function Form() {
                 name="place"
                 value={place}
                 onChange={(e) => setPlace(e.target.value)}
+                required={true}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="mainCharacter">Personagem Principal</label>
+              <label htmlFor="mainCharacter">Personagem Principal (Nome)</label>
               <input
                 type="text"
                 id="mainCharacter"
                 name="mainCharacter"
                 value={mainCharacter}
                 onChange={(e) => setMainCharacter(e.target.value)}
+                required={true}
               />
             </div>
             <div className="form-group">
@@ -137,6 +140,7 @@ function Form() {
                 name="mainCharacterDescription"
                 value={mainCharacterDescription}
                 onChange={(e) => setMainCharacterDescription(e.target.value)}
+                required={true}
               />
             </div>
             <div className="form-group">
