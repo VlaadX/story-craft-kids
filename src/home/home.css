@@ -64,6 +64,12 @@ body {
   color: #666;
 }
 
+.home #story-list li:hover {
+  background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+  border-color: #ccc; /* Cor da borda ao passar o mouse */
+}
+
+
 @media (max-width: 600px) {
   header {
       flex-direction: column;

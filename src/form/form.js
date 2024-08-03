@@ -24,11 +24,14 @@ function Form() {
 
     const stories = JSON.parse(localStorage.getItem("stories")) || [];
 
-    const better_character_description = await gemini_generate_description(mainCharacterDescription);
+    const better_character_description = await gemini_generate_description(
+      mainCharacterDescription
+    );
     console.log(mainCharacterDescription);
     console.log(better_character_description);
 
-    const generate_function = api === "openai" ? openai_generate_history : gemini_generate_history;
+    const generate_function =
+      api === "openai" ? openai_generate_history : gemini_generate_history;
 
     const story_body = remove_markdown(
       await generate_function(
@@ -45,16 +48,12 @@ function Form() {
 
     const paragraphs = divideText(splitText(story_body));
 
-    console.log(paragraphs);
-
     const images = [];
 
     for (let i = 0; i < paragraphs.length; i++) {
       const url = await openai_generate_image(paragraphs[i], better_character_description);
       images.push(url);
     }
-
-    console.log(images);
 
     const storyId = stories.length + 1;
 
@@ -91,11 +90,13 @@ function Form() {
     <div className="form">
       {isLoading ? (
         <div className="loading-screen">
-          Gerando sua história, por favor aguarde...
+          A geração da história pode levar poucos minutos, por favor não feche a
+          página...
         </div>
       ) : (
         <div className="container">
           <h1>Criar Nova História</h1>
+          <div className="description">Quanto mais detalhes, melhor será a história e as imagens.</div>
           <form id="story-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="title">Título</label>

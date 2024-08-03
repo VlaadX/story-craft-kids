@@ -17,6 +17,18 @@ function Home() {
     window.location.href = `story/${id}`;
   };
 
+  const formatDate = (epoch) => {
+    const date = new Date(epoch);
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return date.toLocaleString('pt-BR', options);
+  };
+
   return (
     <div className="home">
       <div className="App">
@@ -34,7 +46,7 @@ function Home() {
                   <h2>{story.title}</h2>
                   <p>
                     Data de criação:{" "}
-                    {new Date(story.date * 1000).toLocaleDateString()}
+                    {formatDate(story.date)}
                   </p>
                 </li>
               ))}

@@ -32,13 +32,16 @@ const Story = () => {
     setStory(story);
   };
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp * 1000);
-    return (
-      date.toLocaleDateString("pt-BR") +
-      " " +
-      date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
-    );
+  const formatDate = (epoch) => {
+    const date = new Date(epoch);
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return date.toLocaleString('pt-BR', options);
   };
 
   const generatePDF = () => {

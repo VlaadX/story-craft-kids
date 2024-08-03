@@ -12,6 +12,13 @@
   color: #333;
 }
 
+.form .description {
+  font-size: 1em; /* Tamanho da fonte da descrição */
+  color: #666; /* Cor da fonte da descrição */
+  margin-bottom: 20px; /* Espaçamento abaixo da descrição */
+  text-align: center; /* Centraliza a descrição */
+}
+
 .form .form-group {
   margin-bottom: 15px;
 }
@@ -21,6 +28,28 @@
   font-weight: bold;
   margin-bottom: 5px;
   color: #333;
+}
+
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente branco */
+  color: #333; /* Cor do texto */
+  font-size: 1.2em; /* Tamanho do texto */
+  z-index: 1000; /* Garantir que fique sobre todos os outros elementos */
+  text-align: center;
+}
+
+.loading-screen::before {
+  content: '⏳'; /* Ícone de ampulheta */
+  font-size: 2em; /* Tamanho do ícone */
+  margin-right: 10px; /* Espaço entre ícone e texto */
 }
 
 .form input, textarea, select {
