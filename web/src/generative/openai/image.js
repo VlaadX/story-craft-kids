@@ -8,26 +8,22 @@ const generate = async (context, mainCharacterDescriptionParam, style) => {
   });
 
   const prompt = `
-  Crie uma imagem agradavel para uma criança baseada no seguinte contexto:,
-  contexto: ${context}
-  personagem principal : ${mainCharacterDescriptionParam}
-
-  Estilo da imagem deve ser de Desenho Animado.
-  A imagem está sendo usada para ilustrar uma história infantil.
-  É muito importante que a imagem não contenha algo que possa ser considerado ofensivo ou inadequado para crianças.
-  É importante que a imagem seja agradável e bem desenhada.
+  Crie uma imagem encantadora e adequada para crianças.
+  O cenário deve ser baseado no seguinte contexto: ${context}.
+  O personagem principal é: ${mainCharacterDescriptionParam}.
+  A imagem deve apresentar cores vibrantes e elementos visuais lúdicos, focando em criar um ambiente acolhedor e amigável para crianças.
+  Evite incluir qualquer tipo de texto, números ou símbolos na cena. 
 `;
+
 
   console.log("contexto: ", context);
 
-  console.log(prompt);
 
   const response = await openai.images.generate({
     model: "dall-e-3",
     prompt: prompt,
   });
 
-  console.log(response);
 
   return response.data[0].url;
 }

@@ -3,7 +3,7 @@ const TEXT_APIS = {
   gemini: "gemini"
 }
 
-const MAX_IMAGES = 8;
+const MAX_IMAGES = 6;
 
 const divideText = (splitedText) => {
   const dividedText = [];

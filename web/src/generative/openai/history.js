@@ -8,13 +8,14 @@ const generate = async (
   contextParam,
   problemParam,
   mainGoalParam,
-  detailsParam
+  detailsParam,
+  age
 ) => {
   const openai_api_key = process.env.REACT_APP_OPENAI_API_KEY;
   const openai = new OpenAI({ apiKey: openai_api_key, dangerouslyAllowBrowser: true });
 
-  const prompt = `
-  Crie uma história infantil encantadora e fantasiosa que cative o coração de uma criança. A história deve ser apropriada para crianças e deve incluir os seguintes elementos:
+  let prompt = `
+  Crie uma história infantil encantadora e fantasiosa para uma criança de ${age} anos. A história deve cativar o coração da criança e ser apropriada para a faixa etária.  e deve incluir os seguintes elementos:
   
   ${titleParam ? `Título: ${titleParam}` : ""}
   ${placeParam ? `Local: ${placeParam}` : ""}
@@ -33,6 +34,13 @@ const generate = async (
   Importante que ela não contenha elementos que possam assustar ou traumatizar a criança.
   Também não deve conter elementos violentos ou inapropriados para menores.
 `;
+if (age <= 5) {
+  prompt += "\nA história deve ser curta e com linguagem muito simples, com frases curtas e elementos visuais encantadores. adequado para uma crianca de menos de 5 anos que nao sabe ler direito";
+} else if (age <= 8) {
+  prompt += "\nA história deve ter um enredo simples e encantador, adequado para crianças pequenas, com uma linguagem simples. adequado para uma crianca entre 6 e 8 anos que ja sabe ler";
+} else {
+  prompt += "\nA história pode ter um enredo um pouco mais complexo, mas ainda adequado para uma criança, com uma linguagem leve e agradável.";
+}
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",

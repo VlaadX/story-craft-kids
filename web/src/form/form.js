@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import gemini_generate_history from "../generative/gemini/history";
 import openai_generate_history from "../generative/openai/history";
 import openai_generate_image from "../generative/openai/image";
@@ -17,6 +18,7 @@ function Form() {
   const [details, setDetails] = useState("");
   const [api, setApi] = useState("gemini");
   const [isLoading, setIsLoading] = useState(false);
+  const [age, setAge] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,8 +29,6 @@ function Form() {
     const better_character_description = await gemini_generate_description(
       mainCharacterDescription
     );
-    console.log(mainCharacterDescription);
-    console.log(better_character_description);
 
     const generate_function =
       api === "openai" ? openai_generate_history : gemini_generate_history;
@@ -51,8 +51,21 @@ function Form() {
     const images = [];
 
     for (let i = 0; i < paragraphs.length; i++) {
-      const url = await openai_generate_image(paragraphs[i], better_character_description);
-      images.push(url);
+      const openaiImageUrl = await openai_generate_image(paragraphs[i], better_character_description);
+
+      try {
+        // Envia a imagem diretamente para o Cloudinary usando axios
+        const formData = new FormData();
+        formData.append("file", openaiImageUrl);
+        formData.append("upload_preset", "direct_upload"); // Seu upload preset configurado na Cloudinary
+
+        const { data } = await axios.post(`https://api.cloudinary.com/v1_1/dm1nfj4ei/image/upload`, formData);
+
+        // Salva a URL segura da imagem na lista de imagens
+        images.push(data.secure_url);
+      } catch (error) {
+        console.error("Erro ao fazer upload na Cloudinary:", error);
+      }
     }
 
     const storyId = stories.length + 1;
@@ -180,6 +193,18 @@ function Form() {
                 onChange={(e) => setDetails(e.target.value)}
               ></textarea>
             </div>
+            <div className="form-group">
+              <label htmlFor="age">Idade da Criança</label>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                required
+              />
+            </div>
+
             <div className="form-group">
               <label htmlFor="api">API</label>
               <select
